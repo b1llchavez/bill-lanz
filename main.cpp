@@ -134,7 +134,7 @@ int main() {
                         cout << "  Enter caller name: " << RESET;
                         getline(cin, input);
                         if (input.empty()) {
-                            cout << RED << "  Caller name cannot be empty." << endl << RESET;
+                            cout << "  Caller name cannot be" << RED << " EMPTY." << endl << RESET;
                         } else {
                             staticQueue.enqueue(input);
                         }
@@ -156,10 +156,10 @@ int main() {
                     cout << BOLD << BBLUE "  ----" << BYELLOW << "----" << BBLUE << "----" << BYELLOW << "----" << BBLUE << "-----" << BYELLOW << "----" << BBLUE << "----" << BYELLOW << "----" << BBLUE << "----" << RESET << endl;
                     subChoice = getValidatedInput(1, 4, "\033[0m  Select an option from\033[94m \033[1m[\033[93m1-4\033[94m]\033[37m: \033[0m");
                     if (subChoice == 1) {
-                        cout << YELLOW << "  Enter caller name: " << RESET;
+                        cout << "  Enter caller name: " << RESET;
                         getline(cin, input);
                         if (input.empty()) {
-                            cout << RED << "  Caller name cannot be empty.\n" << RESET;
+                            cout << "  Caller name cannot be" << RED << " EMPTY." << endl << RESET;
                         } else {
                             dynamicQueue.enqueue(input);
                         }
