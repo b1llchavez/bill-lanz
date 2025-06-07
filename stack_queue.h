@@ -1,5 +1,3 @@
-// HEADER FILE - stack_queue.h
-
 #ifndef STACK_QUEUE_H // if STACK_QUEUE_H is not defined,
 #define STACK_QUEUE_H // define STACK_QUEUE_H to prevent multiple inclusions
 #include <string> // string header file
