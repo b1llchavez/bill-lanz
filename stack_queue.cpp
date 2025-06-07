@@ -1,4 +1,3 @@
-// IMPLEMENTATION FILE - stack_queue.cpp
 #include "stack_queue.h" // includes the HEADER FILE stack_queue.h
 #include <iostream> // includes the input & output stream library 
 using namespace std; // to not use std manually
