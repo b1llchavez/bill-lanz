@@ -28,8 +28,8 @@ int getValidatedInput(int min, int max, const string& prompt) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');  // clear any extra input
             return choice;  // return the valid input
         } else {  // if input is invalid
-            cout << RED << endl << "  \033[31mINVALID \033[37minput. Please enter a number only between "
-                 << min << " and " << max << "." << endl << RESET;  // displays the error message
+             cout << RED << "  \033[31mINVALID \033[37minput. Please enter a number only between "
+                 << min << " and " << max << "." << endl << RESET << endl;  // displays the error message
 
             cin.clear();  // clears the error flag
             cin.ignore(numeric_limits<streamsize>::max(), '\n');  // discard or ignore the invalid input
