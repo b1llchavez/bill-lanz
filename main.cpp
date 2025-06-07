@@ -1,4 +1,3 @@
-// MAIN FILE - main.cpp
 #include "stack_queue.h" // includes the HEADER FILE stack_queue.h
 #include <iostream> // includes the input & output stream library 
 #include <limits> // include limits 
