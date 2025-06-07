@@ -1,179 +1,191 @@
-// stack_queue.cpp
-#include "stack_queue.h"
-#include <iostream>
-using namespace std;
+// IMPLEMENTATION FILE - stack_queue.cpp
+#include "stack_queue.h" // includes the HEADER FILE stack_queue.h
+#include <iostream> // includes the input & output stream library 
+using namespace std; // to not use std manually
 
 // Static Stack
-StaticStack::StaticStack() : top(-1) {}
+StaticStack::StaticStack() : top(-1) {} // static stack constructor that initializes the stack by setting the top to -1 (empty)
 
-bool StaticStack::isFull() {
+bool StaticStack::isFull() { // checks if the static stack is full by comparing top to the maximum allowed index
     return top == MAX_SIZE - 1;
 }
 
-bool StaticStack::isEmpty() {
+bool StaticStack::isEmpty() { // checks if the static stack is empty by checking if the top is still at -1 (empty)
     return top == -1;
 }
 
-void StaticStack::push(const string& item) {
-    if (isFull()) {
-        cout << "  Static Stack is full.\n";
-        return;
+void StaticStack::push(const string& item) { // pushes a new item onto the static stack
+    if (isFull()) { // if the static stack is full,
+        cout << "  Static Stack is full." << endl; // displays that the static stack is full
+        return;  // function exit
     }
-    stack[++top] = item;
-    cout << " \033[1m \033[33m" << item << "\033[0m is pushed to the static stack." << endl;
+    stack[++top] = item; // and if the static stack is not full, increment the top part and assign the new item to that position
+    cout << " \033[1m \033[33m" << item << "\033[0m is pushed to the static stack." << endl; // displays that the item is pushed (added) to the top part of the static stack
 }
 
-void StaticStack::pop() {
-    if (isEmpty()) {
-        cout << "  The Static Stack is \033[31mEMPTY\033[0m." << endl;
-        return;
-    }
-    cout << "  Popped: \033[1m\033[91m" << stack[top--] << "\033[0m\n";
+void StaticStack::pop() { // pops (removes) the item (by latest order) onto the static stack
+    if (isEmpty()) { // if the static stack is empty,
+        cout << "  The Static Stack is \033[31mEMPTY\033[0m." << endl; // displays that the static stack is empty
+        return; // function exit
+    } // and if the static stack is not empty,
+    cout << "  Popped: \033[1m\033[91m" << stack[top--] << "\033[0m\n"; // displays that the item is popped (removed in order of newest to oldest) in the static stack
 }
 
-void StaticStack::display() {
-    if (isEmpty()) {
-        cout << "  The Static Stack is \033[1m\033[31mEMPTY\033[0m." << endl;
-        return;
-    }
-    cout << "  Static Stack Elements (top to bottom): ";
+void StaticStack::display() { // displays the static stack 
+    if (isEmpty()) { // if the static stack is empty, 
+        cout << "  The Static Stack is \033[1m\033[31mEMPTY\033[0m." << endl; // displays that the static stack is empty
+        return; // function exit
+    } // if the static stack contains an item/elements,
+    cout << "  Static Stack Elements (top to bottom): "; // display the contents of the static stack
     for (int i = top; i >= 0; --i)
-        cout << stack[i] << (i ? " \033[1m\033[33m->\033[0m " : "\n");
+        cout << stack[i] << (i ? " \033[1m\033[33m->\033[0m " : "\n"); // add an arrow -> for formality and clarity of the stack items displayed
 }
 
 // Dynamic Stack
-DynamicStack::DynamicStack() : top(nullptr) {}
+DynamicStack::DynamicStack() : top(nullptr) {} // dynamic stack constructor that initializes the stack by setting top pointer to nullptr (empty stack)
 
-DynamicStack::~DynamicStack() {
-    while (!isEmpty()) pop();
+DynamicStack::~DynamicStack() { // dynamic stack destructor that cleans up all the nodes to prevent memory leaks by popping until empty
+    while (!isEmpty()) pop(); // keep popping/removing the nodes until the stack is empty
 }
 
-bool DynamicStack::isEmpty() {
-    return top == nullptr;
+bool DynamicStack::isEmpty() { // checks if the dynamic stack is empty
+    return top == nullptr; // by testing if top pointer is also the same as nullptr
 }
 
-void DynamicStack::push(const string& item) {
-    StackNode* newNode = new StackNode{item, top};
-    top = newNode;
-    cout << "  \033[1m\033[33m" << item << "\033[0m is pushed to the dynamic stack." << endl;
+void DynamicStack::push(const string& item) { // pushes (adds) a new item onto the dynamic stack
+    StackNode* newNode = new StackNode{item, top}; // creates a new node with item as its data that points to the current top
+    top = newNode; // updates the top pointer to the new node, placing it on top
+    cout << "  \033[1m\033[33m" << item << "\033[0m is pushed to the dynamic stack." << endl; // displays that the item is pushed to the dynamic stack
 }
 
-void DynamicStack::pop() {
-    if (isEmpty()) {
-        cout << "  The dynamic stack is \033[1m\033[31mEMPTY\033[0m." << endl;
-        return;
+void DynamicStack::pop() { // pops (removes) an item that is in the dynamic stack
+    if (isEmpty()) { // if the dynamic stack is empty,
+        cout << "  The dynamic stack is \033[1m\033[31mEMPTY\033[0m." << endl; // displays that the stack is empty
+        return; // function exit
     }
-    StackNode* temp = top;
-    cout << "  Popped: \033[1m\033[91m" << temp->data << "\033[0m\n";
-    top = top->next;
-    delete temp;
+    StackNode* temp = top; // temporarily store the current top node
+    cout << "  Popped: \033[1m\033[91m" << temp->data << "\033[0m\n"; // displays the data being popped
+    top = top->next; // moves the top pointer to the next node (removing the current top)
+    delete temp; // frees the memory of the old top node for memory leak prevention 
 }
 
-void DynamicStack::display() {
-    if (isEmpty()) {
-        cout << "  The dynamic stack is \033[1m\033[31mEMPTY\033[0m." << endl;
-        return;
-    }
-    cout << "  Dynamic Stack (top to bottom): ";
-    StackNode* temp = top;
-    while (temp) {
-        cout << temp->data << (temp->next ? " \033[1m\033[33m->\033[0m " : "\n");
-        temp = temp->next;
+void DynamicStack::display() { // dynamic stack display function
+    if (isEmpty()) { // if the dynamic stack is empty,
+        cout << "  The dynamic stack is \033[1m\033[31mEMPTY\033[0m." << endl; // displays that the stack is empty
+        return; // function exit
+    } // if the dynamic stack contains an item/elements,
+    cout << "  Dynamic Stack (top to bottom): "; // display its contents
+    StackNode* temp = top; // start from the top node
+    while (temp) { // traverse through the stack nodes existing
+        cout << temp->data << (temp->next ? " \033[1m\033[33m->\033[0m " : "\n");   // display the data of current node (with added -> for clarity)
+        temp = temp->next; // move to the next node
     }
 }
 
 // Static Queue
-StaticQueue::StaticQueue() : front(-1), rear(-1) {}
+// Static Queue
 
-bool StaticQueue::isFull() {
-    return (rear + 1) % MAX_SIZE == front;
+StaticQueue::StaticQueue() : front(-1), rear(-1) {} // initialize the front and rear to -1 (empty queue)
+
+bool StaticQueue::isFull() { // checks if the static queue is full
+    return (rear + 1) % MAX_SIZE == front; // return true if the next rear position is equal to front
 }
 
-bool StaticQueue::isEmpty() {
-    return front == -1;
+bool StaticQueue::isEmpty() {  // checks if the static queue is empty
+    return front == -1; // return true if front is -1 (empty queue)
 }
 
-void StaticQueue::enqueue(const string& caller) {
-    if (isFull()) {
-        cout << "  The Static Queue is \033[31mFULL\033[0m." << endl;
-        return;
+void StaticQueue::enqueue(const string& caller) { // enqueues/adds an item to the static queue
+    if (isFull()) { // if the static queue is full
+        cout << "  The Static Queue is \033[31mFULL\033[0m." << endl; // displays that the queue is full
+        return; // exit function
     }
-    if (isEmpty()) front = rear = 0;
-    else rear = (rear + 1) % MAX_SIZE;
-    queue[rear] = caller;
-    cout << "  " << caller << "\033[0m is \033[1m\033[33mADDED\033[0m to the Static Queue." << endl;
+    if (isEmpty()) front = rear = 0; // if the queue is empty, set front and rear to 0
+    else rear = (rear + 1) % MAX_SIZE; // else, move the rear forward (wrap around)
+    queue[rear] = caller;  //stores the new item at the rear
+    cout << "  " << caller << "\033[0m is \033[1m\033[33mADDED\033[0m to the Static Queue." << endl;  // display message if the item was added to the queue
 }
 
-void StaticQueue::dequeue() {
-    if (isEmpty()) {
-        cout << "  The Static Queue is \033[1m\033[91mEMPTY\033[0m." << endl;
-        return;
-    }
-    cout << "  \033[1m"<< queue[front] << " is \033[31mDEQUEUED\033[37m from the queue.\033[0m" << "\n";
-    if (front == rear) front = rear = -1;
-    else front = (front + 1) % MAX_SIZE;
+void StaticQueue::dequeue() { // removes an item from the static queue
+    if (isEmpty()) { // if the static queue is empty
+        cout << "  The Static Queue is \033[1m\033[91mEMPTY\033[0m." << endl;  // displays message that queue is empty
+        return; // exit function
+    } // if the static queue is not empty,
+    cout << "  \033[1m"<< queue[front] << " is \033[31mDEQUEUED\033[37m from the queue.\033[0m" << "\n";  // display the dequeued item/s
+    if (front == rear) front = rear = -1;  // if there is only one item, reset the queue to empty
+    else front = (front + 1) % MAX_SIZE;  // else, move front forward (wrap around)
 }
 
-void StaticQueue::display() {
-    if (isEmpty()) {
-        cout << "  Static Queue is \033[1m\033[91mEMPTY\033[0m." << endl;
-        return;
+void StaticQueue::display() {  // display all items in the static queue
+    if (isEmpty()) {  // if static queue is empty
+        cout << "  Static Queue is \033[1m\033[91mEMPTY\033[0m." << endl; // display that the queue is empty
+        return; //exit function
     }
-    cout << "  Static Queue: ";
-    int i = front;
-    while (true) {
-        cout << queue[i];
-        if (i == rear) break;
-        cout << " \033[1m\033[33m<-\033[0m ";
-        i = (i + 1) % MAX_SIZE;
+    cout << "  Static Queue: "; // prints the queue label
+    int i = front; // start from the front index
+    while (true) { // loop through queue items
+        cout << queue[i]; // displays the current item
+        if (i == rear) break; //stops if item has reached the rear
+        cout << " \033[1m\033[33m<-\033[0m "; // displays an arrow between items (for clarity of display)
+        i = (i + 1) % MAX_SIZE; // move the index forward circularly
     }
-    cout << "\n";
+    cout << endl; // new line (for spacing)
 }
+
 
 // Dynamic Queue
-DynamicQueue::DynamicQueue() : front(nullptr), rear(nullptr) {}
 
-DynamicQueue::~DynamicQueue() {
-    while (!isEmpty()) dequeue();
+DynamicQueue::DynamicQueue() : front(nullptr), rear(nullptr) {}  // constructor for initializing the front and rear to nullptr (empty queue)
+
+DynamicQueue::~DynamicQueue() {  //destructor for clearing memory
+    while (!isEmpty()) dequeue(); // keep removing nodes until the dynamic queue becomes empty
 }
 
-bool DynamicQueue::isEmpty() {
-    return front == nullptr;
+bool DynamicQueue::isEmpty() { // checks if the dynamic queue is empty
+    return front == nullptr; // true if front is nullptr
 }
 
-void DynamicQueue::enqueue(const string& caller) {
-    QueueNode* temp = new QueueNode{caller, nullptr};
-    if (!rear) front = rear = temp;
-    else {
-        rear->next = temp;
-        rear = temp;
+void DynamicQueue::enqueue(const string& caller) {  // void dynamic queue function for enqueuing
+    QueueNode* temp = new QueueNode{caller, nullptr};  // creates a new node with caller name
+
+    if (!rear) front = rear = temp; // if the dynamic queue is empty, the front and rear are both the new node
+    else { 
+        rear->next = temp; // links the current rear to the new node
+        rear = temp; // moves the rear to point to the new node
     }
-    cout << " \033[1m \033[33m" << caller << " " << "\033[37mis \033[33mADDED\033[37m to the dynamic queue." << endl;
+
+    cout << " \033[1m \033[33m" << caller << " " << "\033[37mis \033[33mADDED\033[37m to the dynamic queue." << endl; // display message if the caller was added to the queue
 }
 
-void DynamicQueue::dequeue() {
-    if (isEmpty()) {
-        cout << "  The Dynamic Queue is \033[1m\033[91mEMPTY\033[0m." << endl;
-        return;
+void DynamicQueue::dequeue() { // void dynamic queue function for dequeuing
+    if (isEmpty()) { // if the dynamic queue is empty,
+        cout << "  The Dynamic Queue is \033[1m\033[91mEMPTY\033[0m." << endl; // display that the dynamic queue is empty
+        return; // exit function
     }
-    QueueNode* temp = front;
-    cout << "\033[1m\033[37m  " << temp->caller << " is \033[1m\033[91mDEQUEUED\033[37m\033[0m.";
-    front = front->next;
-    if (!front) rear = nullptr;
-    delete temp;
+
+    QueueNode* temp = front; // temp points to the node being removed
+    cout << "\033[1m\033[37m  " << temp->caller << " is \033[1m\033[91mDEQUEUED\033[37m\033[0m.";  // displays the dequeued name (caller)
+
+    front = front->next; // moves the front to the next node
+    if (!front) rear = nullptr; // if the dynamic queue is empty, set rear to nullptr
+    delete temp; // frees the memory of the removed node
 }
 
-void DynamicQueue::display() {
-    if (isEmpty()) {
-        cout << "  Dynamic Queue is \033[1m\033[91mEMPTY\033[0m." << endl;
-        return;
+void DynamicQueue::display() { // void function that will display the content/s of the dynamic queue
+    if (isEmpty()) { // if the dynamic queue is empty,
+        cout << "  Dynamic Queue is \033[1m\033[91mEMPTY\033[0m." << endl; // display that the dynamic queue is empty
+        return; //exit function
     }
-    cout << "  Dynamic Queue: ";
-    QueueNode* temp = front;
-    while (temp) {
-        cout << temp->caller;
-        if (temp->next) cout << " \033[1m\033[33m<-\033[0m ";
-        temp = temp->next;
+
+    cout << "  Dynamic Queue: "; // displays the label for the dynamic queue
+    QueueNode* temp = front;  // start from front
+
+    while (temp) {  //loop through nodes
+        cout << temp->caller; // display the current caller's name/value
+        if (temp->next) // if there is a next node,
+            cout << " \033[1m\033[33m<-\033[0m "; // displays an arrow between the two nodes for formality
+        temp = temp->next; // moves to next node
     }
-    cout << "\n";
+
+    cout << endl; // end line for spacing
 }
